@@ -11,6 +11,7 @@ const Sidebar = ({
   weather,
   type1,
   type2,
+  type3
 }) => {
   const [display, setDisplay] = useState(false);
 
@@ -60,6 +61,7 @@ const Sidebar = ({
             list={list}
             type1={type1}
             type2={type2}
+            type3={type3}
           />
         )}
       </div>
