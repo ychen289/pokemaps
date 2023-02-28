@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useJsApiLoader, GoogleMap, MarkerF } from "@react-google-maps/api";
-import mapStyles from "../../mapStyles";
+import mapStyles from "../mapStyles";
 import { Button } from "@mui/material";
 import axios from "axios";
 
@@ -10,34 +10,29 @@ const options = {
   disableDefaultUI: true,
   zoomControl: true,
 };
-const APIKEY = "4ddf11fc76cb0cef3cd9e2991726d34d";
-const Map = () => {
+
+const Map = ({
+  testFunction,
+  grabWeather,
+  weather,
+  setWeather,
+  icon,
+  setIcon,
+  coordinates,
+  setCoordinates,
+}) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
   });
-  const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0 });
+
   const [map, setMap] = useState("");
-  const [weather, setWeather] = useState("");
-  const [icon, setIcon] = useState("10d");
 
   const centerMap = () => {
     map.panTo(center);
     //map is originally null but upon loading, google map turns it into a giant map object.
     //this in turn makes it so the map object has a panTo function
-  };
-  const grabWeather = async (latitude, longitude) => {
-    const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${APIKEY}`
-    );
-    console.log("response: ", response);
-    console.log("response.data: ", response.data);
-    // tested above route. works with hard coded values
-    const data = response.data;
-    const weatherData = data.weather[0].main;
-    const icon = data.weather[0].icon;
-    setWeather(weatherData);
-    setIcon(icon);
+    console.log(map);
   };
 
   const clickFunctions = (event) => {
@@ -54,6 +49,7 @@ const Map = () => {
     });
     grabWeather(latitude, longitude);
     console.log("GRABWEATHER FUNCTION FINISHED");
+    testFunction("ONE", "TWO");
   };
 
   if (!isLoaded) {
@@ -81,7 +77,7 @@ const Map = () => {
           onClick={centerMap}
           style={{ backgroundColor: "#F47174" }}
         >
-          Real Recenter Map
+          Recenter Map
         </Button>
         <h1>
           Latitude: {coordinates.lat} | Longitude: {coordinates.lng}
@@ -98,14 +94,18 @@ const Map = () => {
             top: "10px",
             left: "10px",
             zIndex: "1",
-            width: "370px"
+            width: "370px",
           }}
         >
-          <h1 style={{paddingRight: "5%"}}>Weather: {weather}</h1>
+          <h1 style={{ paddingRight: "5%" }}>Weather: {weather}</h1>
           <img
             src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
             alt="icon"
-            style={{ border: "1px solid black", borderRadius: "10px", backgroundColor: "#d7e9f7"}}
+            style={{
+              border: "1px solid black",
+              borderRadius: "10px",
+              backgroundColor: "#d7e9f7",
+            }}
           />
         </div>
       </div>
