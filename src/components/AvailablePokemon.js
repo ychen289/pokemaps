@@ -19,9 +19,14 @@ const AvailablePokemon = ({
 }) => {
     const [typing, setTyping] = useState([])
 
+const showAll = () => {
+    console.log(pokemon)
+}
+
   return (
     <div>
       <h1>AVAILABLE POKEMON GO HERE PLACEHOLDER</h1>
+      <button onClick={showAll}>Show Pokemon list</button>
     </div>
   );
 };

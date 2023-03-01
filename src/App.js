@@ -98,14 +98,14 @@ export default App;
 
 /* <Button variant="contained" onClick={centerMap}>Real Recenter Map</Button> */
 
-const arrayName = [
-  { name: "tom", color: "red" },
-  { name: "sarah", color: "red" },
-  { name: "john", color: "red" },
-  { name: "sam", color: "blue" },
-  { name: "connie", color: "blue" },
-  { name: "jerry", color: "blue" },
-  { name: "hank", color: "yellow" },
-  { name: "tim", color: "yellow" },
-  { name: "bob", color: "yellow" },
-];
+// const arrayName = [
+//   { name: "tom", color: "red" },
+//   { name: "sarah", color: "red" },
+//   { name: "john", color: "red" },
+//   { name: "sam", color: "blue" },
+//   { name: "connie", color: "blue" },
+//   { name: "jerry", color: "blue" },
+//   { name: "hank", color: "yellow" },
+//   { name: "tim", color: "yellow" },
+//   { name: "bob", color: "yellow" },
+// ];
