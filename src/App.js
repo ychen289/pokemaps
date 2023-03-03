@@ -5,8 +5,17 @@ import Map from "./components/Map";
 import Pokedex from "./components/Pokedex";
 import AvailablePokemon from "./components/AvailablePokemon";
 
-const APIKEY = "4ddf11fc76cb0cef3cd9e2991726d34d";
+const APIKEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
+const conditions = {
+  Thunderstorm: ["electric", "water", "bug"],
+  Drizzle: ["water", "bug"],
+  Rain: ["water", "ice"],
+  Snow: ["ice", "ghost", "dark", "dragon", "psychic", "steel"],
+  Atmosphere: ["normal", "grass", "fire", "ground", "rock", "flying", "steel"],
+  Clear: ["normal", "rock", "grass", "flying", "steel"],
+  Clouds: ["fighting", "poison", "dragon", "psychic", "flying"],
+};
 function App() {
   const [pokemon, setPokemon] = useState([]);
   const [weather, setWeather] = useState("Clouds");
@@ -15,26 +24,9 @@ function App() {
     lat: 35.6586,
     lng: 139.7454,
   });
+  //display is the displayed pokemon on bottom of app
   const [display, setDisplay] = useState([]);
 
-  const testFunction = (one, two) => {
-    console.log(one, two);
-  };
-  // const grabPokemon = async () => {
-  //   const response = await axios.get(
-  //     "https://pokeapi.co/api/v2/pokemon?limit=151"
-  //   );
-  //   const pokemonList = response.data.results;
-  //   const pokemonDetails = await Promise.all(
-  //     pokemonList.map(async (pokemon) => {
-  //       const response = await axios.get(pokemon.url);
-  //       const pokemonData = response.data;
-  //       pokemonData.encountered = false;
-  //       return pokemonData;
-  //     })
-  //   );
-  //   setPokemon(pokemonDetails);
-  // };
   const grabPokemon = async () => {
     const response = await axios.get(
       "https://pokeapi.co/api/v2/pokemon?limit=151"
@@ -56,35 +48,59 @@ function App() {
       })
     );
     setPokemon(pokemonDetails);
-    console.log(pokemon)
+    console.log("allPokemon inside grabPokemon function: ",pokemon);
   };
   const grabWeather = async (latitude = 35.6586, longitude = 139.7454) => {
     const response = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${APIKEY}`
     );
-    console.log(latitude, longitude)
-    console.log("response: ", response);
-    console.log("response.data: ", response.data);
-    // tested above route. works with hard coded values
     const data = response.data;
     const weatherData = data.weather[0].main;
-    console.log(weatherData)
     const icon = data.weather[0].icon;
     setWeather(weatherData);
     setIcon(icon);
   };
 
+  const handleEncounter = (id) => {
+    setPokemon((previousState) =>
+      previousState.map((pokemon) =>
+        pokemon.id === id ? { ...pokemon, encountered: true } : pokemon
+      )
+    );
+  };
+
+  const handleDisplayEncounter = (id) => {
+    setDisplay((previousState) =>
+      previousState.map((pokemon) =>
+        pokemon.id === id ? { ...pokemon, encountered: true } : pokemon
+      )
+    );
+  };
+
+  const handleDisplay = () => {
+    const boostedTypes = conditions[weather];
+    const boostedPokemon = pokemon.filter((eachPokemon) => {
+      const pokemonTypes = eachPokemon.types;
+      return pokemonTypes && pokemonTypes.some((eachType) => boostedTypes.includes(eachType));
+    });
+    const randomizedPokemon = boostedPokemon.sort(()=> Math.random() - 0.5)
+    const displayedPokemon=randomizedPokemon.slice(0,7)
+    console.log("randomizedPokemon precut",randomizedPokemon);
+    console.log("pokemon postcut", displayedPokemon)
+    setDisplay(displayedPokemon)
+  };
+
   useEffect(() => {
     grabPokemon();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     grabWeather();
+    handleDisplay()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <div style={{ display: "flex", flexDirection: "row" }}>
+    <div style={{ display: "flex", flexDirection: "column"}}>
+      <div className="main-container">
         <Map
-          testFunction={testFunction}
           grabWeather={grabWeather}
           weather={weather}
           setWeather={setWeather}
@@ -92,8 +108,13 @@ function App() {
           setIcon={setIcon}
           coordinates={coordinates}
           setCoordinates={setCoordinates}
+          handleDisplay={handleDisplay}
         />
-        <Pokedex pokemon={pokemon} setPokemon={setPokemon} />
+        <Pokedex
+          pokemon={pokemon}
+          setPokemon={setPokemon}
+          handleEncounter={handleEncounter}
+        />
       </div>
       <AvailablePokemon
         pokemon={pokemon}
@@ -101,33 +122,11 @@ function App() {
         display={display}
         setDisplay={setDisplay}
         weather={weather}
+        handleEncounter={handleEncounter}
+        handleDisplayEncounter={handleDisplayEncounter}
       />
     </div>
   );
 }
 
 export default App;
-
-//create markers wherever you click*******************
-/* {info.map((marker) => (
-<InfoWindowF
-  key={info.time.toISOString()}
-  position={{ lat: info.lat, lng: info.lng }}
-/>
-))} */
-
-/* <h1>Latitude: {coordinates.lat} | Longitude: {coordinates.lng}</h1> */
-
-/* <Button variant="contained" onClick={centerMap}>Real Recenter Map</Button> */
-
-// const arrayName = [
-//   { name: "tom", color: "red" },
-//   { name: "sarah", color: "red" },
-//   { name: "john", color: "red" },
-//   { name: "sam", color: "blue" },
-//   { name: "connie", color: "blue" },
-//   { name: "jerry", color: "blue" },
-//   { name: "hank", color: "yellow" },
-//   { name: "tim", color: "yellow" },
-//   { name: "bob", color: "yellow" },
-// ];

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useJsApiLoader, GoogleMap, MarkerF } from "@react-google-maps/api";
 import mapStyles from "../mapStyles";
 import { Button } from "@mui/material";
-import axios from "axios";
 
 const center = { lat: 35.6586, lng: 139.7454 };
 const options = {
@@ -12,7 +11,6 @@ const options = {
 };
 
 const Map = ({
-  testFunction,
   grabWeather,
   weather,
   setWeather,
@@ -20,6 +18,7 @@ const Map = ({
   setIcon,
   coordinates,
   setCoordinates,
+  handleDisplay,
 }) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -48,12 +47,12 @@ const Map = ({
       lng: longitude,
     });
     grabWeather(latitude, longitude);
-    console.log("GRABWEATHER FUNCTION FINISHED");
-    testFunction("ONE", "TWO");
+    handleDisplay();
+    console.log("CLICKFUNCTION FUNCTION FINISHED");
   };
 
   if (!isLoaded) {
-    return <h1>Loading Google Maps</h1>;
+    return <h1>Loading Google Maps...</h1>;
   }
   return (
     <div style={{ position: "relative" }}>
@@ -61,7 +60,12 @@ const Map = ({
         <GoogleMap
           center={center}
           zoom={15}
-          mapContainerStyle={{ width: "110vh", height: "80vh" }}
+          mapContainerStyle={{
+            width: "90vh",
+            height: "66vh",
+            border: "1px solid #333",
+            borderRadius: "10px",
+          }}
           onLoad={(map) => setMap(map)}
           options={options}
           onClick={(event) => {
@@ -71,7 +75,7 @@ const Map = ({
           <MarkerF position={center} />
         </GoogleMap>
       </div>
-      <div style={{ position: "absolute", top: "20px", left: "20px" }}>
+      <div style={{ position: "absolute", top: "40px", left: "40px" }}>
         <Button
           variant="contained"
           onClick={centerMap}
@@ -85,7 +89,6 @@ const Map = ({
         <div
           style={{
             display: "flex",
-            // backgroundColor: "rgba(255, 255, 255, 0.8)",
             backgroundColor: "#77DD77",
             border: "1px solid black",
             borderRadius: "10px",

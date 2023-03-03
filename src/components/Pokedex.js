@@ -1,36 +1,21 @@
 import React from "react";
-import { Button } from "@mui/material";
 
-const Pokedex = ({ pokemon, setPokemon }) => {
-  const handleEncounter = (id) => {
-    setPokemon((previousState) =>
-      previousState.map((pokemon) =>
-        pokemon.id === id ? { ...pokemon, encountered: true } : pokemon
-      )
-    );
-  };
-
+const Pokedex = ({ pokemon, setPokemon, handleEncounter, handleCapture }) => {
   return (
-    <div>
-      <div
-        style={{
-          height: "80vh",
-          display: "flex",
-          flexWrap: "wrap",
-          overflow: "scroll",
-        }}
-      >
+    <div style={{ position: "relative" }}>
+      <div className="pokedex-container">
         {!(pokemon.length === 0) ? (
           pokemon.map((eachPokemon) => (
             <div
               key={eachPokemon.name}
               style={{
                 position: "relative",
-                width: "250px",
-                height: "500px",
+                width: "200px",
+                height: "400px",
                 backgroundColor: "#77DD77",
                 border: "1px solid #333",
-                margin: "20px",
+                borderRadius: "10px",
+                margin: "10px",
                 textAlign: "center",
                 padding: "20px",
               }}
@@ -68,40 +53,17 @@ const Pokedex = ({ pokemon, setPokemon }) => {
                     eachPokemon.types
                       .map(
                         (typing) =>
-                          typing.charAt(0).toUpperCase() +
-                          typing.slice(1)
+                          typing.charAt(0).toUpperCase() + typing.slice(1)
                       )
                       .join(", ")
                   : "???"}
-              </p>
-
-              <p style={{ fontSize: "18px", color: "black" }}>
-                Encountered: {eachPokemon.encountered ? "Yes" : "No"}
-              </p>
-              <p style={{ fontSize: "18px", color: "black" }}>
-                Captured: {eachPokemon.captured ? "Yes" : "No"}
               </p>
               <div
                 style={{
                   display: "flex",
                   width: "250px",
                 }}
-              >
-                <div style={{paddingRight: "5%"}}>
-                  <Button
-                    variant="contained"
-                    onClick={() => handleEncounter(eachPokemon.id)}
-                  >
-                    Change Encounter
-                  </Button>
-                </div>
-                <Button
-                  variant="contained"
-                  onClick={() => console.log(eachPokemon)}
-                >
-                  Pokemon Info
-                </Button>
-              </div>
+              ></div>
             </div>
           ))
         ) : (

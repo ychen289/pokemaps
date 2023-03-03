@@ -36,3 +36,28 @@
     transform: rotate(360deg);
   }
 }
+
+.main-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.pokedex-container {
+  height: 66vh;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  border: 1px solid #333;
+  border-radius: 10px;
+  justify-content: center;
+}
+
+.pokedex-container::-webkit-scrollbar {
+  display: none;
+}
+
+@media only screen and (max-width: 1165px) {
+  .main-container {
+    flex-direction: column;
+  }
+}
