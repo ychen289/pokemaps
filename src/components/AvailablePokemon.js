@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios"
 
 // const conditions = {
 //   Thunderstorm: [],
@@ -18,10 +19,12 @@ const AvailablePokemon = ({
   weather,
 }) => {
     const [typing, setTyping] = useState([])
+    const [test, setTest] = useState([])
 
 const showAll = () => {
     console.log(pokemon)
 }
+
 
   return (
     <div>

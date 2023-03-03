@@ -20,6 +20,21 @@ function App() {
   const testFunction = (one, two) => {
     console.log(one, two);
   };
+  // const grabPokemon = async () => {
+  //   const response = await axios.get(
+  //     "https://pokeapi.co/api/v2/pokemon?limit=151"
+  //   );
+  //   const pokemonList = response.data.results;
+  //   const pokemonDetails = await Promise.all(
+  //     pokemonList.map(async (pokemon) => {
+  //       const response = await axios.get(pokemon.url);
+  //       const pokemonData = response.data;
+  //       pokemonData.encountered = false;
+  //       return pokemonData;
+  //     })
+  //   );
+  //   setPokemon(pokemonDetails);
+  // };
   const grabPokemon = async () => {
     const response = await axios.get(
       "https://pokeapi.co/api/v2/pokemon?limit=151"
@@ -28,14 +43,21 @@ function App() {
     const pokemonDetails = await Promise.all(
       pokemonList.map(async (pokemon) => {
         const response = await axios.get(pokemon.url);
-        const pokemonData = response.data;
+        const { id, name, sprites, types } = response.data;
+        const pokemonData = {
+          id,
+          name,
+          types: types.map((type) => type.type.name),
+          sprite: sprites.front_default,
+        };
         pokemonData.encountered = false;
+        pokemonData.captured = false;
         return pokemonData;
       })
     );
     setPokemon(pokemonDetails);
+    console.log(pokemon)
   };
-
   const grabWeather = async (latitude = 35.6586, longitude = 139.7454) => {
     const response = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${APIKEY}`

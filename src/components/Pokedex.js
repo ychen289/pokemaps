@@ -68,8 +68,8 @@ const Pokedex = ({ pokemon, setPokemon }) => {
                     eachPokemon.types
                       .map(
                         (typing) =>
-                          typing.type.name.charAt(0).toUpperCase() +
-                          typing.type.name.slice(1)
+                          typing.charAt(0).toUpperCase() +
+                          typing.slice(1)
                       )
                       .join(", ")
                   : "???"}
@@ -77,6 +77,9 @@ const Pokedex = ({ pokemon, setPokemon }) => {
 
               <p style={{ fontSize: "18px", color: "black" }}>
                 Encountered: {eachPokemon.encountered ? "Yes" : "No"}
+              </p>
+              <p style={{ fontSize: "18px", color: "black" }}>
+                Captured: {eachPokemon.captured ? "Yes" : "No"}
               </p>
               <div
                 style={{
