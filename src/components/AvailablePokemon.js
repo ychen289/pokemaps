@@ -17,10 +17,11 @@ const AvailablePokemon = ({
         flexWrap: "wrap",
         border: "1px solid #333",
         borderRadius: "10px",
-        justifyContent: "center"
+        justifyContent: "center",
       }}
     >
-      {display &&
+      {!(display.length === 0) ? (
+        display &&
         display.map((eachPokemon) => {
           return (
             <div
@@ -69,15 +70,21 @@ const AvailablePokemon = ({
               {eachPokemon.encountered ? (
                 <h4>Added!</h4>
               ) : (
-                <Button onClick={() => {
-                  handleEncounter(eachPokemon.id)
-                  handleDisplayEncounter(eachPokemon.id)}}>
+                <Button
+                  onClick={() => {
+                    handleEncounter(eachPokemon.id);
+                    handleDisplayEncounter(eachPokemon.id);
+                  }}
+                >
                   Add to Pokedex
                 </Button>
               )}
             </div>
           );
-        })}
+        })
+      ) : (
+        <h1>Click anywhere on the map to see available Pokemon!</h1>
+      )}
     </div>
   );
 };
