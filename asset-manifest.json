@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/pokemaps/static/css/main.99d87b2b.css",
-    "main.js": "/pokemaps/static/js/main.78509d48.js",
+    "main.js": "/pokemaps/static/js/main.14197189.js",
     "static/js/787.7969706d.chunk.js": "/pokemaps/static/js/787.7969706d.chunk.js",
     "index.html": "/pokemaps/index.html",
     "main.99d87b2b.css.map": "/pokemaps/static/css/main.99d87b2b.css.map",
-    "main.78509d48.js.map": "/pokemaps/static/js/main.78509d48.js.map",
+    "main.14197189.js.map": "/pokemaps/static/js/main.14197189.js.map",
     "787.7969706d.chunk.js.map": "/pokemaps/static/js/787.7969706d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.99d87b2b.css",
-    "static/js/main.78509d48.js"
+    "static/js/main.14197189.js"
   ]
 }
