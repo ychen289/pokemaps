@@ -5,7 +5,7 @@ import Map from "./components/Map";
 import Pokedex from "./components/Pokedex";
 import AvailablePokemon from "./components/AvailablePokemon";
 
-const APIKEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+const APIKEY = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
 
 const conditions = {
   Thunderstorm: ["electric", "water", "bug"],
